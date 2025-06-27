@@ -49,33 +49,33 @@ const BackgroundControls: React.FC<BackgroundControlsProps> = ({
   return (
     <div className="space-y-4">
       {/* Background Type Selector */}
-      <div className="flex gap-2">
+      <div className="flex gap-3">
         <button
           onClick={() => handleTypeChange('solid')}
-          className={`px-4 py-2 rounded-lg font-medium transition-all ${
+          className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
             backgroundType === 'solid' 
-              ? 'bg-blue-500 text-white shadow-lg' 
-              : 'bg-gray-200 hover:bg-gray-300'
+              ? 'bg-blue-500 text-white shadow-lg transform scale-105' 
+              : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
           }`}
         >
-          Solid
+          Solid Color
         </button>
         <button
           onClick={() => handleTypeChange('gradient')}
-          className={`px-4 py-2 rounded-lg font-medium transition-all ${
+          className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
             backgroundType === 'gradient' 
-              ? 'bg-blue-500 text-white shadow-lg' 
-              : 'bg-gray-200 hover:bg-gray-300'
+              ? 'bg-blue-500 text-white shadow-lg transform scale-105' 
+              : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
           }`}
         >
           Gradient
         </button>
         <button
           onClick={() => handleTypeChange('image')}
-          className={`px-4 py-2 rounded-lg font-medium transition-all ${
+          className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
             backgroundType === 'image' 
-              ? 'bg-blue-500 text-white shadow-lg' 
-              : 'bg-gray-200 hover:bg-gray-300'
+              ? 'bg-blue-500 text-white shadow-lg transform scale-105' 
+              : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
           }`}
         >
           Image

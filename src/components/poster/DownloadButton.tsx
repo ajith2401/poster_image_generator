@@ -35,8 +35,7 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
     } else {
       // Handle solid color or gradient
       if (background.value.includes('gradient')) {
-        // For gradients, create a simple approximation
-        // In a real implementation, you'd parse and recreate the gradient
+        // Parse gradient colors
         const gradientMatch = background.value.match(/#[a-fA-F0-9]{6}/g);
         if (gradientMatch && gradientMatch.length >= 2) {
           const gradient = ctx.createLinearGradient(0, 0, 1080, 1080);
@@ -44,7 +43,8 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
           gradient.addColorStop(1, gradientMatch[1]);
           ctx.fillStyle = gradient;
         } else {
-          ctx.fillStyle = '#4ECDC4'; // Default fallback
+          // Fallback for gradients without proper color codes
+          ctx.fillStyle = '#4ECDC4';
         }
       } else {
         ctx.fillStyle = background.value;
@@ -56,33 +56,34 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
     function drawText() {
       // Calculate position
       let x: number, y: number;
-      const padding = 50;
+      const padding = 80;
       
-      // Set font
-      ctx.font = `${fontSettings.fontSize * 2.7}px ${fontSettings.fontFamily.split(',')[0]}`;
+      // Set main text font - MUCH LARGER
+      const mainFontSize = Math.max(fontSettings.fontSize * 3, 72); // Minimum 72px
+      ctx.font = `${mainFontSize}px ${fontSettings.fontFamily.split(',')[0].replace('var(--font-', '').replace(')', '')}`;
       ctx.fillStyle = fontSettings.color;
       ctx.textAlign = fontSettings.textAlign as CanvasTextAlign || 'center';
       
-      // Add text shadow
-      ctx.shadowColor = 'rgba(0,0,0,0.5)';
-      ctx.shadowBlur = 4;
-      ctx.shadowOffsetX = 2;
-      ctx.shadowOffsetY = 2;
+      // Add text shadow for better readability
+      ctx.shadowColor = 'rgba(0,0,0,0.8)';
+      ctx.shadowBlur = 8;
+      ctx.shadowOffsetX = 4;
+      ctx.shadowOffsetY = 4;
 
       // Calculate vertical position
-      const lines = content.poemText.split('\n');
-      const lineHeight = fontSettings.fontSize * 2.7 * fontSettings.lineHeight;
+      const lines = content.poemText.split('\n').filter(line => line.trim());
+      const lineHeight = mainFontSize * fontSettings.lineHeight;
       const totalTextHeight = lines.length * lineHeight;
       
       switch (position.vertical) {
         case 'top':
-          y = padding + fontSettings.fontSize * 2.7;
+          y = padding + mainFontSize;
           break;
         case 'bottom':
           y = 1080 - padding - totalTextHeight;
           break;
         default: // center
-          y = (1080 - totalTextHeight) / 2 + fontSettings.fontSize * 2.7;
+          y = (1080 - totalTextHeight) / 2 + mainFontSize;
       }
 
       // Calculate horizontal position
@@ -100,27 +101,40 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
           ctx.textAlign = 'center';
       }
 
-      // Draw poem text
+      // Draw poem text with better spacing
       lines.forEach((line, index) => {
-        ctx.fillText(line, x, y + (index * lineHeight));
+        if (line.trim()) {
+          ctx.fillText(line.trim(), x, y + (index * lineHeight));
+        }
       });
 
-      // Draw author name
+      // Draw author name with proper sizing
       if (content.authorName) {
-        ctx.font = `italic ${fontSettings.fontSize * 1.8}px ${fontSettings.fontFamily.split(',')[0]}`;
+        ctx.shadowColor = 'rgba(0,0,0,0.6)';
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+        
+        const authorFontSize = Math.max(mainFontSize * 0.6, 48);
+        ctx.font = `italic ${authorFontSize}px ${fontSettings.fontFamily.split(',')[0].replace('var(--font-', '').replace(')', '')}`;
         ctx.textAlign = 'right';
-        ctx.fillText(`- ${content.authorName}`, 1080 - padding, y + totalTextHeight + 40);
+        ctx.fillText(`- ${content.authorName}`, 1080 - padding, y + totalTextHeight + (authorFontSize * 1.5));
       }
 
-      // Draw website and instagram
-      ctx.font = `${fontSettings.fontSize * 1.3}px ${fontSettings.fontFamily.split(',')[0]}`;
+      // Draw website and instagram with proper sizing
+      const footerFontSize = Math.max(mainFontSize * 0.4, 32);
+      ctx.font = `${footerFontSize}px ${fontSettings.fontFamily.split(',')[0].replace('var(--font-', '').replace(')', '')}`;
       ctx.textAlign = 'center';
-      ctx.globalAlpha = 0.8;
+      ctx.globalAlpha = 0.9;
+      ctx.shadowColor = 'rgba(0,0,0,0.5)';
+      ctx.shadowBlur = 3;
+      ctx.shadowOffsetX = 1;
+      ctx.shadowOffsetY = 1;
       
-      let bottomY = 1080 - 60;
+      let bottomY = 1080 - 120;
       if (content.website) {
         ctx.fillText(content.website, 540, bottomY);
-        bottomY += 30;
+        bottomY += footerFontSize + 20;
       }
       if (content.instaId) {
         ctx.fillText(`@${content.instaId}`, 540, bottomY);
@@ -141,26 +155,27 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
       <button
         onClick={downloadPoster}
         disabled={!content.poemText.trim()}
-        className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all w-full justify-center ${
+        className={`flex items-center gap-2 px-6 py-4 rounded-lg font-medium transition-all w-full justify-center text-lg ${
           content.poemText.trim()
             ? 'bg-green-500 text-white hover:bg-green-600 transform hover:scale-105 shadow-lg'
             : 'bg-gray-300 text-gray-500 cursor-not-allowed'
         }`}
       >
-        <Download size={20} />
+        <Download size={24} />
         Download HD Poster (1080×1080)
       </button>
       
       {!content.poemText.trim() && (
-        <p className="text-sm text-red-500 mt-2">
+        <p className="text-sm text-red-500 mt-3">
           Please enter a poem to download
         </p>
       )}
       
-      <div className="mt-3 text-xs text-gray-500 space-y-1">
+      <div className="mt-4 text-sm text-gray-600 space-y-1">
         <p>• High-resolution PNG format</p>
         <p>• Perfect for Instagram posts</p>
         <p>• Supports Tamil script</p>
+        <p>• Large, readable text</p>
       </div>
     </div>
   );

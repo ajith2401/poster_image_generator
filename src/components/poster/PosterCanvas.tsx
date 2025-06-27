@@ -21,17 +21,17 @@ const PosterCanvas: React.FC<PosterCanvasProps> = ({
   const getPositionStyles = () => {
     const styles: React.CSSProperties = {
       position: 'absolute',
-      width: '90%',
-      padding: '20px'
+      width: '85%',
+      padding: '15px'
     };
 
     // Vertical positioning
     switch (position.vertical) {
       case 'top':
-        styles.top = '10%';
+        styles.top = '8%';
         break;
       case 'bottom':
-        styles.bottom = '10%';
+        styles.bottom = '8%';
         break;
       default: // center
         styles.top = '50%';
@@ -41,11 +41,11 @@ const PosterCanvas: React.FC<PosterCanvasProps> = ({
     // Horizontal positioning
     switch (position.horizontal) {
       case 'left':
-        styles.left = '5%';
+        styles.left = '7%';
         styles.textAlign = 'left';
         break;
       case 'right':
-        styles.right = '5%';
+        styles.right = '7%';
         styles.textAlign = 'right';
         break;
       default: // center
@@ -63,29 +63,34 @@ const PosterCanvas: React.FC<PosterCanvasProps> = ({
     background: background.type === 'image' 
       ? `url(${background.value}) center/cover no-repeat`
       : background.value,
-    width: '400px',
-    height: '400px',
+    width: '450px',
+    height: '450px',
     position: 'relative',
     overflow: 'hidden',
-    border: '2px solid #e5e7eb',
-    borderRadius: '12px'
+    border: '3px solid #e5e7eb',
+    borderRadius: '16px',
+    boxShadow: '0 10px 25px rgba(0,0,0,0.15)'
   };
 
+  // Better preview scaling - make text more readable
+  const previewFontSize = Math.max(fontSettings.fontSize * 0.65, 18);
+
   return (
-    <div className="flex flex-col items-center space-y-4">
+    <div className="flex flex-col items-center space-y-6">
       <div ref={canvasRef} style={backgroundStyle} id="poster-canvas">
         <div style={getPositionStyles()}>
           {/* Main Poem Text */}
           <div
             style={{
               fontFamily: fontSettings.fontFamily,
-              fontSize: `${fontSettings.fontSize * 0.5}px`, // Scale down for preview
+              fontSize: `${previewFontSize}px`,
               color: fontSettings.color,
               lineHeight: fontSettings.lineHeight,
               textAlign: fontSettings.textAlign,
-              textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
-              marginBottom: '10px',
-              whiteSpace: 'pre-line'
+              textShadow: '2px 2px 4px rgba(0,0,0,0.7)',
+              marginBottom: '12px',
+              whiteSpace: 'pre-line',
+              fontWeight: '500'
             }}
           >
             {content.poemText || 'Enter your Tamil poem...'}
@@ -96,12 +101,13 @@ const PosterCanvas: React.FC<PosterCanvasProps> = ({
             <div
               style={{
                 fontFamily: fontSettings.fontFamily,
-                fontSize: `${(fontSettings.fontSize * 0.5) * 0.7}px`,
+                fontSize: `${previewFontSize * 0.7}px`,
                 color: fontSettings.color,
                 textAlign: 'right',
                 fontStyle: 'italic',
-                marginTop: '15px',
-                textShadow: '1px 1px 2px rgba(0,0,0,0.5)'
+                marginTop: '20px',
+                textShadow: '2px 2px 4px rgba(0,0,0,0.7)',
+                fontWeight: '500'
               }}
             >
               - {content.authorName}
@@ -111,29 +117,33 @@ const PosterCanvas: React.FC<PosterCanvasProps> = ({
           {/* Website and Instagram */}
           <div
             style={{
-              fontSize: `${(fontSettings.fontSize * 0.5) * 0.5}px`,
+              fontSize: `${previewFontSize * 0.5}px`,
               color: fontSettings.color,
               textAlign: 'center',
-              marginTop: '20px',
-              opacity: 0.8,
-              textShadow: '1px 1px 2px rgba(0,0,0,0.5)'
+              marginTop: '25px',
+              opacity: 0.9,
+              textShadow: '1px 1px 3px rgba(0,0,0,0.7)',
+              fontWeight: '500'
             }}
           >
-            {content.website && <div>{content.website}</div>}
+            {content.website && <div style={{ marginBottom: '8px' }}>{content.website}</div>}
             {content.instaId && <div>@{content.instaId}</div>}
           </div>
         </div>
       </div>
       
       {/* Preview Info */}
-      <div className="text-center">
-        <p className="text-sm text-gray-600">
-          Preview (400×400) • Download will be 1080×1080
+      <div className="text-center bg-gray-50 p-4 rounded-lg">
+        <p className="text-sm text-gray-700 font-medium">
+          Live Preview (450×450) • Download will be HD 1080×1080
         </p>
-        <div className="flex items-center justify-center gap-4 mt-2 text-xs text-gray-500">
-          <span>Font: {fontSettings.fontFamily.split(',')[0]}</span>
+        <div className="flex items-center justify-center gap-6 mt-3 text-xs text-gray-600">
+          <span>Font: {fontSettings.fontFamily.split(',')[0].replace('var(--font-', '').replace(')', '')}</span>
           <span>Size: {fontSettings.fontSize}px</span>
           <span>Position: {position.vertical} {position.horizontal}</span>
+        </div>
+        <div className="mt-2 text-xs text-green-600 font-medium">
+          ✓ Download will have larger, more readable text
         </div>
       </div>
     </div>

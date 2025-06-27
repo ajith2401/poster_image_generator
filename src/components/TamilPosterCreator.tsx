@@ -29,7 +29,7 @@ const TamilPosterCreator: React.FC = () => {
   
   const [fontSettings, setFontSettings] = useState<FontSettings>({
     fontFamily: 'var(--font-noto-sans-tamil), sans-serif',
-    fontSize: 32,
+    fontSize: 48, // Increased from 32 to 48
     color: '#FFFFFF',
     textAlign: 'center',
     lineHeight: 1.5
@@ -50,15 +50,15 @@ const TamilPosterCreator: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+        <div className="text-center mb-10">
+          <h1 className="text-5xl font-bold text-gray-800 mb-4">
             🎨 Tamil Poem Poster Creator
           </h1>
-          <p className="text-gray-600">
-            Create beautiful HD posters for your Tamil poetry • Perfect for Instagram
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+            Create beautiful HD posters for your Tamil poetry • Perfect for Instagram and social media
           </p>
         </div>
         

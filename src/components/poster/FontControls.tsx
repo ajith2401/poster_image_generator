@@ -9,8 +9,8 @@ interface FontControlsProps {
 
 const FontControls: React.FC<FontControlsProps> = ({ fontSettings, onFontChange }) => {
   const tamilFonts = [
-    { name: 'Noto Sans Tamil', value: 'Noto Sans Tamil, sans-serif' },
-    { name: 'Catamaran', value: 'Catamaran, sans-serif' },
+    { name: 'Noto Sans Tamil', value: 'var(--font-noto-sans-tamil), sans-serif' },
+    { name: 'Catamaran', value: 'var(--font-catamaran), sans-serif' },
     { name: 'Latha', value: 'Latha, sans-serif' },
     { name: 'Bamini', value: 'Bamini, sans-serif' },
     { name: 'Arial Unicode MS', value: 'Arial Unicode MS, sans-serif' },
@@ -26,16 +26,16 @@ const FontControls: React.FC<FontControlsProps> = ({ fontSettings, onFontChange 
   ];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Font Family */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Font Family
+        <label className="block text-sm font-semibold text-gray-700 mb-3">
+          Tamil Font Family
         </label>
         <select
           value={fontSettings.fontFamily}
           onChange={(e) => onFontChange({ ...fontSettings, fontFamily: e.target.value })}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full p-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
         >
           {tamilFonts.map((font, index) => (
             <option key={index} value={font.value}>
@@ -47,21 +47,21 @@ const FontControls: React.FC<FontControlsProps> = ({ fontSettings, onFontChange 
 
       {/* Font Size */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Font Size: {fontSettings.fontSize}px
+        <label className="block text-sm font-semibold text-gray-700 mb-3">
+          Font Size: <span className="text-blue-600 font-bold">{fontSettings.fontSize}px</span>
         </label>
         <input
           type="range"
-          min="20"
-          max="100"
-          step="2"
+          min="24"
+          max="120"
+          step="4"
           value={fontSettings.fontSize}
           onChange={(e) => onFontChange({ ...fontSettings, fontSize: parseInt(e.target.value) })}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+          className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
         />
-        <div className="flex justify-between text-xs text-gray-500 mt-1">
-          <span>20px</span>
-          <span>100px</span>
+        <div className="flex justify-between text-sm text-gray-500 mt-2">
+          <span>24px (Small)</span>
+          <span>120px (Large)</span>
         </div>
       </div>
 
@@ -74,18 +74,18 @@ const FontControls: React.FC<FontControlsProps> = ({ fontSettings, onFontChange 
 
       {/* Text Alignment */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-semibold text-gray-700 mb-3">
           Text Alignment
         </label>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           {textAlignments.map((align) => (
             <button
               key={align.value}
               onClick={() => onFontChange({ ...fontSettings, textAlign: align.value })}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
+              className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
                 fontSettings.textAlign === align.value 
-                  ? 'bg-blue-500 text-white shadow-lg' 
-                  : 'bg-gray-200 hover:bg-gray-300'
+                  ? 'bg-blue-500 text-white shadow-lg transform scale-105' 
+                  : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
               }`}
             >
               {align.label}
@@ -96,8 +96,8 @@ const FontControls: React.FC<FontControlsProps> = ({ fontSettings, onFontChange 
 
       {/* Line Height */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Line Height: {fontSettings.lineHeight}
+        <label className="block text-sm font-semibold text-gray-700 mb-3">
+          Line Height: <span className="text-blue-600 font-bold">{fontSettings.lineHeight}</span>
         </label>
         <input
           type="range"
@@ -106,11 +106,11 @@ const FontControls: React.FC<FontControlsProps> = ({ fontSettings, onFontChange 
           step="0.1"
           value={fontSettings.lineHeight}
           onChange={(e) => onFontChange({ ...fontSettings, lineHeight: parseFloat(e.target.value) })}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+          className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
         />
-        <div className="flex justify-between text-xs text-gray-500 mt-1">
-          <span>1.0</span>
-          <span>3.0</span>
+        <div className="flex justify-between text-sm text-gray-500 mt-2">
+          <span>1.0 (Compact)</span>
+          <span>3.0 (Spacious)</span>
         </div>
       </div>
     </div>

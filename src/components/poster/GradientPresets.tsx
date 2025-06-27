@@ -22,23 +22,26 @@ const GradientPresets: React.FC<GradientPresetsProps> = ({ onSelect }) => {
     { name: 'Mint', value: 'linear-gradient(135deg, #a8e6cf, #dcedc1)' },
     { name: 'Golden Hour', value: 'linear-gradient(135deg, #ffd89b, #19547b)' },
     { name: 'Rose Gold', value: 'linear-gradient(135deg, #fccb90, #d57eeb)' },
-    { name: 'Deep Space', value: 'linear-gradient(135deg, #667db6, #0082c8, #0082c8, #667db6)' }
+    { name: 'Deep Space', value: 'linear-gradient(135deg, #667db6, #0082c8)' }
   ];
 
   return (
     <div className="space-y-3">
       <h4 className="font-medium text-gray-700">Gradient Presets</h4>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {gradients.map((gradient, index) => (
           <button
             key={index}
             onClick={() => onSelect(gradient.value)}
-            className="h-16 rounded-xl border-2 border-gray-200 hover:border-gray-400 transition-all transform hover:scale-105 relative overflow-hidden group"
-            style={{ background: gradient.value }}
+            className="h-12 rounded-lg border-2 border-gray-200 hover:border-gray-400 transition-all transform hover:scale-105 relative overflow-hidden group shadow-sm"
+            style={{ 
+              background: gradient.value,
+              minHeight: '48px'
+            }}
             title={gradient.name}
           >
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all flex items-center justify-center">
-              <span className="text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity bg-black bg-opacity-50 px-2 py-1 rounded">
                 {gradient.name}
               </span>
             </div>
