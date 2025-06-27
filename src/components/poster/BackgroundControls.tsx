@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef } from 'react';
 import { Upload } from 'lucide-react';
 import { BackgroundSettings } from '@/types/poster';

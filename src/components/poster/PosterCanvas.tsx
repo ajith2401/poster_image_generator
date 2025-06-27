@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useRef } from 'react';
 import { PosterContent, BackgroundSettings, FontSettings, Position } from '@/types/poster';
 

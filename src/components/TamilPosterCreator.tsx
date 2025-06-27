@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Palette, Type, Move } from 'lucide-react';
 import { PosterContent, BackgroundSettings, FontSettings, Position } from '@/types/poster';
@@ -26,7 +28,7 @@ const TamilPosterCreator: React.FC = () => {
   });
   
   const [fontSettings, setFontSettings] = useState<FontSettings>({
-    fontFamily: 'Noto Sans Tamil, sans-serif',
+    fontFamily: 'var(--font-noto-sans-tamil), sans-serif',
     fontSize: 32,
     color: '#FFFFFF',
     textAlign: 'center',
